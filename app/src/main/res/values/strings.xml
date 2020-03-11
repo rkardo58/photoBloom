@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PhotoBloom</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="image_name">Image Name</string>
+    <string name="upload_file_from_gallery">Upload File From The Gallery</string>
+    <string name="upload_file_from_camera">Take a Photo</string>
+</resources>

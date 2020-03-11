@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="file"
+            type="java.io.File" />
+
+        <variable
+            name="date"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/small_margin"
+        android:paddingStart="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/small_margin">
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            imageFromFilePath="@{file.absolutePath}"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:adjustViewBounds="true"
+            android:contentDescription="@{file.name}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/file_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{file.name + date}"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/list_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/thumbnail"
+            app:layout_constraintEnd_toStartOf="@id/full_size_image"
+            app:layout_constraintStart_toEndOf="@id/thumbnail"
+            app:layout_constraintTop_toTopOf="@id/thumbnail" />
+
+        <ImageView
+            android:id="@+id/full_size_image"
+            android:layout_width="@dimen/click_image_size"
+            android:layout_height="@dimen/click_image_size"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_view"
+            android:tint="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="@id/thumbnail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/thumbnail" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thumbnail" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

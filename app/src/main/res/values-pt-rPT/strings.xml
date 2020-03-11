@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PhotoBloom</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="image_preview">Imagem</string>
+    <string name="image_name">Nome da Imagem</string>
+    <string name="upload_file_from_gallery">Carrega Imagem da Galeria</string>
+    <string name="upload_file_from_camera">Tira uma Foto</string>
+</resources>

@@ -1,5 +1,6 @@
 package com.example.photobloom.ui.main
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -42,17 +43,15 @@ class FilesAdapter(private val listener: OnClickListener) :  ListAdapter<File, F
             listener.onClick(file.absolutePath, file.name)
         }
     }
-
-
 }
 
 class FilesDiffCallback: DiffUtil.ItemCallback<File>() {
     override fun areItemsTheSame(oldItem: File, newItem: File): Boolean {
-        return oldItem.absoluteFile == newItem.absoluteFile
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: File, newItem: File): Boolean {
-        return oldItem.name == newItem.name
+        return oldItem.name == newItem.name &&  BitmapFactory.decodeFile(oldItem.absolutePath).equals( BitmapFactory.decodeFile(newItem.absolutePath))
     }
 
 }

@@ -16,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.photobloom.R
 import com.example.photobloom.databinding.MainFragmentBinding
@@ -23,6 +24,7 @@ import com.example.photobloom.ui.dialogs.FileNameDialog
 import com.example.photobloom.utils.Utils
 import com.example.photobloom.utils.Utils.Companion.hasPermissions
 import com.example.photobloom.utils.toBitmap
+import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.io.IOException
 
@@ -50,6 +52,7 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        binding.userName.text = FirebaseAuth.getInstance().currentUser?.displayName
         setObservers()
         setClickListeners()
     }
@@ -69,6 +72,11 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
             } else{
                 checkPermissions(viewModel.filesPermissions, FILE_REQUEST_CODE)
             }
+        }
+
+        binding.signOut.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_loginFragment)
         }
     }
 
@@ -153,4 +161,6 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
     override fun onClick(path: String, name: String) {
         view?.findNavController()?.navigate(MainFragmentDirections.actionMainFragmentToImageFragment(path, name))
     }
+
+
 }

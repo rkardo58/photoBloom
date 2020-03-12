@@ -7,8 +7,28 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/big_margin"
         tools:context=".ui.main.MainFragment">
+
+        <ImageView
+            android:id="@+id/sign_out"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/exit"
+            android:contentDescription="logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin"
+            android:padding="@dimen/small_margin"/>
 
         <ImageView
             android:id="@+id/file_button"
@@ -16,8 +36,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_upload"
             android:contentDescription="@string/upload_file_from_gallery"
+            android:layout_marginTop="@dimen/margin"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userName"
             app:layout_constraintEnd_toStartOf="@+id/camera_button"/>
 
         <ImageView

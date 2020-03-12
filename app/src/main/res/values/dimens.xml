@@ -6,7 +6,7 @@
     <dimen name="small_margin">10dp</dimen>
     <dimen name="line_height">2dp</dimen>
     <dimen name="margin">20dp</dimen>
-    <dimen name="big_margin">60dp</dimen>
+    <dimen name="big_margin">40dp</dimen>
     <dimen name="dialog_corners">10dp</dimen>
     <dimen name="list_background_corners">20dp</dimen>
 </resources>

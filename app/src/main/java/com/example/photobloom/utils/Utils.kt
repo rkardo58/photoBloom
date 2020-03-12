@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -30,6 +31,12 @@ fun Uri.toBitmap(context: Context) : Bitmap?{
         e.printStackTrace()
         null
     }
+}
+
+fun Bitmap.toByteArray(): ByteArray {
+    val baos = ByteArrayOutputStream()
+    this.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+    return baos.toByteArray()
 }
 
 class Utils {

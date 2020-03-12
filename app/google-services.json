@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "813476150581",
+    "firebase_url": "https://photobloom-d55c5.firebaseio.com",
+    "project_id": "photobloom-d55c5",
+    "storage_bucket": "photobloom-d55c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813476150581:android:4919150804a5951c33a07c",
+        "android_client_info": {
+          "package_name": "com.example.photobloom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813476150581-lh2ub342vmjrtbnigo5gopfgq3oqgauv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdX_qIk8xSD3k1D_hY2osDinwJ9qukiLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "813476150581-lh2ub342vmjrtbnigo5gopfgq3oqgauv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,5 +7,8 @@
     <string name="upload_file_from_gallery">Upload File From The Gallery</string>
     <string name="upload_file_from_camera">Take a Photo</string>
     <string name="missing_permission">Without permissions this features is unavailable.</string>
-    <string name="error_creating_file">Try again please...</string>
+    <string name="error_creating_file">Try again please…</string>
+    <string name="error_login">Error trying to login, try again later…</string>
+    <string name="email_login">Login by Email and Password</string>
+    <string name="gmail_login">Login by Gmail</string>
 </resources>

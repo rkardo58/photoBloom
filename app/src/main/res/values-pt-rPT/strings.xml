@@ -8,5 +8,8 @@
     <string name="upload_file_from_gallery">Carrega Imagem da Galeria</string>
     <string name="upload_file_from_camera">Tira uma Foto</string>
     <string name="missing_permission">Sem permissões esta funcionalidade não está disponível.</string>
-    <string name="error_creating_file">Tente novamente por favor...</string>
+    <string name="error_creating_file">Tente novamente por favor…</string>
+    <string name="error_login">Erro a tentar logar, tente de novo mais tarde…</string>
+    <string name="email_login">Login por email e password</string>
+    <string name="gmail_login">Login por Gmail</string>
 </resources>

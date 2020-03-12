@@ -1,11 +1,10 @@
 package com.example.photobloom.ui.main
 
-import android.Manifest.permission.*
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -40,9 +39,6 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: MainFragmentBinding
-    private val cameraPermissions : Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, CAMERA)
-    private val filesPermissions : Array<String> = cameraPermissions.copyOfRange(0,2)
-    lateinit var currentPhotoUri: Uri
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -59,18 +55,18 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
 
     private fun setClickListeners() {
         binding.cameraButton.setOnClickListener {
-            if (hasPermissions(requireContext(), cameraPermissions)){
+            if (hasPermissions(requireContext(), viewModel.cameraPermissions)){
                 openCamera()
             } else{
-                checkPermissions(cameraPermissions, CAMERA_REQUEST_CODE)
+                checkPermissions(viewModel.cameraPermissions, CAMERA_REQUEST_CODE)
             }
         }
 
         binding.fileButton.setOnClickListener {
-            if (hasPermissions(requireContext(), filesPermissions)){
+            if (hasPermissions(requireContext(), viewModel.filesPermissions)){
                 openFiles()
             } else{
-                checkPermissions(filesPermissions, FILE_REQUEST_CODE)
+                checkPermissions(viewModel.filesPermissions, FILE_REQUEST_CODE)
             }
         }
     }
@@ -89,12 +85,14 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
     }
 
     private fun openFiles() {
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_IMAGE_FROM_GALLERY)
     }
 
     private fun openCamera() {
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
 
                     val photoFile: File? = try {
@@ -103,12 +101,12 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
                         Toast.makeText(requireContext(), "error creating file", Toast.LENGTH_SHORT).show()
                         null
                     }
-                    photoFile?.also { currentPhotoUri = FileProvider.getUriForFile(requireContext(),
+                    photoFile?.also { viewModel.currentPhotoUri = FileProvider.getUriForFile(requireContext(),
                         "com.example.android.fileprovider",
                             it
                         )
-                        currentPhotoUri
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri)
+                        viewModel.currentPhotoUri
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.currentPhotoUri)
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                     }
                 }
@@ -131,19 +129,19 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (data != null){
-                FileNameDialog(requireContext(), when (requestCode){
+        if (resultCode == Activity.RESULT_OK && (data != null || viewModel.currentPhotoUri != null)) {
+                viewModel.dialog = FileNameDialog(requireContext(), when (requestCode){
                     REQUEST_IMAGE_CAPTURE ->{
-                        currentPhotoUri.toBitmap(requireContext())
+                        viewModel.currentPhotoUri?.toBitmap(requireContext())
                     }
 
                     REQUEST_IMAGE_FROM_GALLERY -> {
-                        data.data?.toBitmap(requireContext())
+                        data?.data?.toBitmap(requireContext())
                     }
                     else -> return
-                }, this).show()
-            }
+                }, this)
+            viewModel.dialog?.setOnDismissListener { requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR; }
+            viewModel.dialog?.show()
         }
     }
 

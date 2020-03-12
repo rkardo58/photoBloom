@@ -7,7 +7,6 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.photobloom.ui.dialogs.FileNameDialog
 import com.example.photobloom.utils.Utils
 import com.example.photobloom.utils.Utils.Companion.getFilesFromStorage
 import java.io.File
@@ -26,7 +25,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     )
     val filesPermissions : Array<String> = cameraPermissions.copyOfRange(0,2)
     var currentPhotoUri: Uri? = null
-    var dialog : FileNameDialog? = null
 
     init {
         _filesList.value = getFilesFromStorage(root)

@@ -6,4 +6,6 @@
     <string name="image_name">Image Name</string>
     <string name="upload_file_from_gallery">Upload File From The Gallery</string>
     <string name="upload_file_from_camera">Take a Photo</string>
+    <string name="missing_permission">Without permissions this features is unavailable.</string>
+    <string name="error_creating_file">Try again please...</string>
 </resources>

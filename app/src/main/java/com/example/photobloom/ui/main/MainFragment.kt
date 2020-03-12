@@ -30,6 +30,7 @@ const val CAMERA_REQUEST_CODE = 101
 const val FILE_REQUEST_CODE = 102
 const val REQUEST_IMAGE_CAPTURE = 1
 const val REQUEST_IMAGE_FROM_GALLERY = 2
+const val FILE_PROVIDER = "com.example.android.fileprovider"
 
 interface FileNameDialogListener{
     fun nameEntered(file: Bitmap, name: String)
@@ -98,13 +99,11 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
                     val photoFile: File? = try {
                         Utils.createImageFile(requireContext())
                     } catch (ex: IOException) {
-                        Toast.makeText(requireContext(), "error creating file", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.error_creating_file), Toast.LENGTH_SHORT).show()
                         null
                     }
                     photoFile?.also { viewModel.currentPhotoUri = FileProvider.getUriForFile(requireContext(),
-                        "com.example.android.fileprovider",
-                            it
-                        )
+                        FILE_PROVIDER, it)
                         viewModel.currentPhotoUri
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.currentPhotoUri)
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -122,7 +121,7 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
                 else -> return
             }
         } else {
-            Toast.makeText(requireContext(), "permissionMissing", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.missing_permission), Toast.LENGTH_LONG).show()
         }
 
     }
@@ -130,7 +129,7 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && (data != null || viewModel.currentPhotoUri != null)) {
-                viewModel.dialog = FileNameDialog(requireContext(), when (requestCode){
+                val dialog = FileNameDialog(requireContext(), when (requestCode){
                     REQUEST_IMAGE_CAPTURE ->{
                         viewModel.currentPhotoUri?.toBitmap(requireContext())
                     }
@@ -140,8 +139,10 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
                     }
                     else -> return
                 }, this)
-            viewModel.dialog?.setOnDismissListener { requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR; }
-            viewModel.dialog?.show()
+            dialog.setOnDismissListener {
+                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+                viewModel.currentPhotoUri = null}
+            dialog.show()
         }
     }
 

@@ -12,4 +12,6 @@
     <string name="error_login">Erro a tentar logar, tente de novo mais tarde…</string>
     <string name="email_login">Login por email e password</string>
     <string name="gmail_login">Login por Gmail</string>
+    <string name="upload_failed">Upload da imagem falhou</string>
+    <string name="upload_succeeded">Upload da imagem feito com sucesso</string>
 </resources>

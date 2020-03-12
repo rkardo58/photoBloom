@@ -18,13 +18,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
 
+enum class FileUploadStateEnum{
+    NOT_UPLOADING, UPLOADED, UPLOAD_FAIL
+}
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val path = application.getExternalFilesDir(null)?.absolutePath + File.separator + "images/"
-    private val _filesList = MutableLiveData<ArrayList<File>>()
     private val root = File(path)
+    private val _filesList = MutableLiveData<ArrayList<File>>()
     val filesList : LiveData<ArrayList<File>> get() = _filesList
+    private val _uploadState = MutableLiveData<FileUploadStateEnum>()
+    val uploadState : LiveData<FileUploadStateEnum> get() = _uploadState
     val cameraPermissions : Array<String> = arrayOf(
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -53,7 +58,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         CoroutineScope(coroutineScope).launch {
             val imageReference = storageReference.child("$uid/$name.jpg")
             val uploadTask = imageReference.putBytes(bitmap.toByteArray())
-            uploadTask.addOnSuccessListener {  }.addOnFailureListener{}
+            uploadTask.addOnSuccessListener { _uploadState.value = FileUploadStateEnum.UPLOADED }.addOnFailureListener{_uploadState.value = FileUploadStateEnum.UPLOAD_FAIL}
         }
     }
 

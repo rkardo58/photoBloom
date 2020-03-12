@@ -87,6 +87,16 @@ class MainFragment : Fragment(), FileNameDialogListener, OnClickListener {
             }
             (binding.filesList.adapter as FilesAdapter).submitList(it)
         })
+
+        viewModel.uploadState.observe(viewLifecycleOwner, Observer {
+            if (it != FileUploadStateEnum.NOT_UPLOADING){
+                Toast.makeText(requireContext(), when (it){
+                    FileUploadStateEnum.UPLOAD_FAIL -> getString(R.string.upload_failed)
+                    FileUploadStateEnum.UPLOADED -> getString(R.string.upload_succeeded)
+                    else -> return@Observer
+                }, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun checkPermissions(list: Array<String>, code: Int) {
